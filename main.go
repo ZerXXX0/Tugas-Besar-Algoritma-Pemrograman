@@ -44,6 +44,14 @@ func main() {
 			fmt.Println("Barang berhasil dihapus")
 		case userInput == 3:
 			lihatInventori(barang, jumlah)
+		case userInput == 0:
+			fmt.Println("Terima kasih, sampai jumpa lagi!!")
+			fmt.Println("Thank you, see you again!!")
+			fmt.Println("Danke, auf Wiedersehen!!")
+			fmt.Println("merci, au revoir!!")
+			fmt.Println("Gracias, adiós!!")
+			fmt.Println("Grazie, arrivederci!!")
+			i = 1
 		}
 	}
 }
