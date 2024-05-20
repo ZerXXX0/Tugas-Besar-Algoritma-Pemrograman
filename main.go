@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const NMAX int = 100
+const NMAX int = 1000
 
 type dataBarang [NMAX]struct {
 	nama        string
@@ -10,6 +10,10 @@ type dataBarang [NMAX]struct {
 }
 
 func main() {
+	//variable
+	var userInput, jumlah int
+	var barang dataBarang
+
 	//interface
 	fmt.Println("============================================")
 	fmt.Println("   Welcome to Aplikasi Inventori Barang")
@@ -25,29 +29,32 @@ func main() {
 		fmt.Println("3. Lihat Inventori")
 		fmt.Println("4. Cari barang")
 		fmt.Println("0. Exit")
-
-		//variable
-		var userInput, jumlah int
-		var barang dataBarang
+		fmt.Println("============================================")
 
 		//scan input dari user
+		fmt.Println("Pilihan anda: ")
 		fmt.Scan(&userInput)
+
 		//switch-case untuk menu
 		switch {
 		case userInput == 1:
-			fmt.Scan(&jumlah)
+			//fmt.Scan(&jumlah)
 			tambahBarang(&barang, &jumlah)
-			fmt.Println("Barang berhasil ditambahkan")
+			fmt.Println("Barang berhasil ditambahkan", jumlah)
+			break
 		case userInput == 2:
 			var idDelete int
 			fmt.Scan(&idDelete)
 			hapusBarang(&barang, &jumlah, idDelete)
 			fmt.Println("Barang berhasil dihapus")
+			break
 		case userInput == 3:
 			//header
 			fmt.Println("              Inventori Anda")
 			fmt.Println("============================================")
+			fmt.Println("Id    Nama                Tanggal masuk")
 			lihatInventori(barang, jumlah)
+			break
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -56,10 +63,13 @@ func main() {
 			fmt.Println("Gracias, adiós!!")
 			fmt.Println("Grazie, arrivederci!!")
 			i = 1
+			break
 		}
 	}
 }
 func tambahBarang(barang *dataBarang, jumlah *int) {
+	//input jumlah
+	fmt.Println("Masukkan jumlah barang: ")
 	fmt.Scan(jumlah)
 
 	//out of bound error handling
@@ -97,16 +107,20 @@ func hapusBarang(barang *dataBarang, jumlah *int, idDelete int) {
 	}
 }
 func lihatInventori(barang dataBarang, jumlah int) {
-	//out of bound error handling
-	if jumlah > NMAX {
-		jumlah = NMAX
-	}
+	if jumlah == 0 {
+		fmt.Println("Inventori masih kosong")
+	} else {
+		//out of bound error handling
+		if jumlah > NMAX {
+			jumlah = NMAX
+		}
 
-	//inputting data
-	for i := 0; i < jumlah; i++ {
-		fmt.Print("Nama barang: ", &barang[i].nama, " ")
-		fmt.Print("Id barang: ", &barang[i].id, " ")
-		fmt.Print("Tanggal masuk: ", &barang[i].tanggal)
-		fmt.Println()
+		//inputting data
+		for i := 0; i < jumlah; i++ {
+			fmt.Print(barang[i].id, "    ")
+			fmt.Print(barang[i].nama, "                 ")
+			fmt.Print(barang[i].tanggal)
+			fmt.Println()
+		}
 	}
 }
