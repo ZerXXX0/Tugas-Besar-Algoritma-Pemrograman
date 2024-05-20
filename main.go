@@ -23,7 +23,7 @@ func main() {
 		fmt.Println("1. Tambah Barang")
 		fmt.Println("2. Hapus Barang")
 		fmt.Println("3. Lihat Inventori")
-		fmt.Println("4. ")
+		fmt.Println("4. Cari barang")
 		fmt.Println("0. Exit")
 
 		//variable
@@ -78,11 +78,22 @@ func tambahBarang(barang *dataBarang, jumlah *int) {
 	}
 }
 func hapusBarang(barang *dataBarang, jumlah *int, idDelete int) {
-
+	//searching index
+	var searchedIndex int
 	for i := 0; i < *jumlah; i++ {
-		barang[idDelete].nama = barang[idDelete+1].nama
-		barang[idDelete].tanggal = barang[idDelete+1].tanggal
-		barang[idDelete].id = barang[idDelete+1].id
+		if barang[i].id == idDelete {
+			searchedIndex = i
+		}
+	}
+
+	//decrementing the index
+	*jumlah -= 1
+	//swapping the deleted index
+	for searchedIndex < *jumlah {
+		barang[searchedIndex].nama = barang[searchedIndex+1].nama
+		barang[searchedIndex].tanggal = barang[searchedIndex+1].tanggal
+		barang[searchedIndex].id = barang[searchedIndex+1].id
+		searchedIndex++
 	}
 }
 func lihatInventori(barang dataBarang, jumlah int) {
