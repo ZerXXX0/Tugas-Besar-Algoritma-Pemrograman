@@ -53,6 +53,10 @@ func main() {
 			fmt.Println("============================================")
 			fmt.Println("Id    Nama                Tanggal masuk")
 			lihatInventori(barang, actualJumlah)
+		case userInput == 4:
+			var idEdit int
+			fmt.Scan(&idEdit)
+			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -126,4 +130,7 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 			fmt.Printf("%-5d %-19s %-18d\n", barang[i].id, barang[i].nama, barang[i].tanggal)
 		}
 	}
+}
+func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
+
 }
