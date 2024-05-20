@@ -79,6 +79,11 @@ func tambahBarang(barang *dataBarang, jumlah *int) {
 }
 func hapusBarang(barang *dataBarang, jumlah *int, idDelete int) {
 
+	for i := 0; i < *jumlah; i++ {
+		barang[idDelete].nama = barang[idDelete+1].nama
+		barang[idDelete].tanggal = barang[idDelete+1].tanggal
+		barang[idDelete].id = barang[idDelete+1].id
+	}
 }
 func lihatInventori(barang dataBarang, jumlah int) {
 	//out of bound error handling
