@@ -23,6 +23,7 @@ func main() {
 		fmt.Println("1. Tambah Barang")
 		fmt.Println("2. Hapus Barang")
 		fmt.Println("3. Lihat Inventori")
+		fmt.Println("4. ")
 		fmt.Println("0. Exit")
 
 		//variable
@@ -43,12 +44,15 @@ func main() {
 			hapusBarang(&barang, &jumlah, idDelete)
 			fmt.Println("Barang berhasil dihapus")
 		case userInput == 3:
+			//header
+			fmt.Println("              Inventori Anda")
+			fmt.Println("============================================")
 			lihatInventori(barang, jumlah)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
 			fmt.Println("Danke, auf Wiedersehen!!")
-			fmt.Println("merci, au revoir!!")
+			fmt.Println("Merci, au revoir!!")
 			fmt.Println("Gracias, adiós!!")
 			fmt.Println("Grazie, arrivederci!!")
 			i = 1
@@ -56,11 +60,37 @@ func main() {
 	}
 }
 func tambahBarang(barang *dataBarang, jumlah *int) {
+	fmt.Scan(jumlah)
 
+	//out of bound error handling
+	if *jumlah > NMAX {
+		*jumlah = NMAX
+	}
+
+	//inputting data
+	for i := 0; i < *jumlah; i++ {
+		fmt.Println("Masukkan nama barang: ")
+		fmt.Scan(&barang[i].nama)
+		fmt.Println("Masukkan id barang: ")
+		fmt.Scan(&barang[i].id)
+		fmt.Println("Masukkan tanggal (MMDD): ")
+		fmt.Scan(&barang[i].tanggal)
+	}
 }
 func hapusBarang(barang *dataBarang, jumlah *int, idDelete int) {
 
 }
 func lihatInventori(barang dataBarang, jumlah int) {
+	//out of bound error handling
+	if jumlah > NMAX {
+		jumlah = NMAX
+	}
 
+	//inputting data
+	for i := 0; i < jumlah; i++ {
+		fmt.Print("Nama barang: ", &barang[i].nama, " ")
+		fmt.Print("Id barang: ", &barang[i].id, " ")
+		fmt.Print("Tanggal masuk: ", &barang[i].tanggal)
+		fmt.Println()
+	}
 }
