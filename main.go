@@ -11,7 +11,7 @@ type dataBarang [NMAX]struct {
 
 func main() {
 	//variable
-	var userInput, jumlah int
+	var userInput, jumlah, actualJumlah int
 	var barang dataBarang
 
 	//interface
@@ -39,22 +39,20 @@ func main() {
 		switch {
 		case userInput == 1:
 			//fmt.Scan(&jumlah)
-			tambahBarang(&barang, &jumlah)
+			tambahBarang(&barang, &jumlah, &actualJumlah)
 			fmt.Println("Barang berhasil ditambahkan", jumlah)
-			break
 		case userInput == 2:
 			var idDelete int
+			fmt.Println("Masukkan id barang yang ingin dihapus")
 			fmt.Scan(&idDelete)
-			hapusBarang(&barang, &jumlah, idDelete)
+			hapusBarang(&barang, &actualJumlah, idDelete)
 			fmt.Println("Barang berhasil dihapus")
-			break
 		case userInput == 3:
 			//header
 			fmt.Println("              Inventori Anda")
 			fmt.Println("============================================")
 			fmt.Println("Id    Nama                Tanggal masuk")
-			lihatInventori(barang, jumlah)
-			break
+			lihatInventori(barang, actualJumlah)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -63,11 +61,10 @@ func main() {
 			fmt.Println("Gracias, adiós!!")
 			fmt.Println("Grazie, arrivederci!!")
 			i = 1
-			break
 		}
 	}
 }
-func tambahBarang(barang *dataBarang, jumlah *int) {
+func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 	//input jumlah
 	fmt.Println("Masukkan jumlah barang: ")
 	fmt.Scan(jumlah)
@@ -77,50 +74,56 @@ func tambahBarang(barang *dataBarang, jumlah *int) {
 		*jumlah = NMAX
 	}
 
-	//inputting data
+	*actualJumlah = *jumlah
 	for i := 0; i < *jumlah; i++ {
-		fmt.Println("Masukkan nama barang: ")
-		fmt.Scan(&barang[i].nama)
-		fmt.Println("Masukkan id barang: ")
-		fmt.Scan(&barang[i].id)
-		fmt.Println("Masukkan tanggal (MMDD): ")
-		fmt.Scan(&barang[i].tanggal)
+		if barang[i].nama != "" {
+			*actualJumlah++
+		}
+	}
+
+	//inputting data
+	for i := 0; i < *actualJumlah; i++ {
+		if barang[i].nama == "" {
+			fmt.Println("Masukkan nama barang: ")
+			fmt.Scan(&barang[i].nama)
+			fmt.Println("Masukkan id barang: ")
+			fmt.Scan(&barang[i].id)
+			fmt.Println("Masukkan tanggal (MMDD): ")
+			fmt.Scan(&barang[i].tanggal)
+		}
 	}
 }
-func hapusBarang(barang *dataBarang, jumlah *int, idDelete int) {
+func hapusBarang(barang *dataBarang, actualJumlah *int, idDelete int) {
 	//searching index
 	var searchedIndex int
-	for i := 0; i < *jumlah; i++ {
+	for i := 0; i < *actualJumlah; i++ {
 		if barang[i].id == idDelete {
 			searchedIndex = i
 		}
 	}
 
 	//decrementing the index
-	*jumlah -= 1
+	*actualJumlah -= 1
 	//swapping the deleted index
-	for searchedIndex < *jumlah {
+	for searchedIndex < *actualJumlah {
 		barang[searchedIndex].nama = barang[searchedIndex+1].nama
 		barang[searchedIndex].tanggal = barang[searchedIndex+1].tanggal
 		barang[searchedIndex].id = barang[searchedIndex+1].id
 		searchedIndex++
 	}
 }
-func lihatInventori(barang dataBarang, jumlah int) {
-	if jumlah == 0 {
+func lihatInventori(barang dataBarang, actualJumlah int) {
+	if actualJumlah == 0 {
 		fmt.Println("Inventori masih kosong")
 	} else {
 		//out of bound error handling
-		if jumlah > NMAX {
-			jumlah = NMAX
+		if actualJumlah > NMAX {
+			actualJumlah = NMAX
 		}
 
 		//inputting data
-		for i := 0; i < jumlah; i++ {
-			fmt.Print(barang[i].id, "    ")
-			fmt.Print(barang[i].nama, "                 ")
-			fmt.Print(barang[i].tanggal)
-			fmt.Println()
+		for i := 0; i < actualJumlah; i++ {
+			fmt.Printf("%-5d %-19s %-18d\n", barang[i].id, barang[i].nama, barang[i].tanggal)
 		}
 	}
 }
