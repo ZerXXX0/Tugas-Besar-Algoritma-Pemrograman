@@ -188,3 +188,5 @@ func logBarang(logActivity *log, jumlahLog *int, update string) {
 		}
 	}
 }
+
+func search()
