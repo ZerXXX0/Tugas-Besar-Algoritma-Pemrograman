@@ -5,8 +5,8 @@ import "fmt"
 const NMAX int = 1000
 
 type dataBarang [NMAX]struct {
-	nama        string
-	tanggal, id int
+	nama              string
+	tanggal, id, stok int
 }
 
 func main() {
@@ -51,7 +51,7 @@ func main() {
 			//header
 			fmt.Println("              Inventori Anda")
 			fmt.Println("============================================")
-			fmt.Println("Id    Nama                Tanggal masuk")
+			fmt.Println("Id    Nama             Tanggal masuk    Stok")
 			lihatInventori(barang, actualJumlah)
 		case userInput == 4:
 			var idEdit int
@@ -94,6 +94,8 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 			fmt.Scan(&barang[i].id)
 			fmt.Println("Masukkan tanggal (MMDD): ")
 			fmt.Scan(&barang[i].tanggal)
+			fmt.Println("Masukkan tanggal stok: ")
+			fmt.Scan(&barang[i].stok)
 		}
 	}
 }
@@ -127,10 +129,10 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 
 		//inputting data
 		for i := 0; i < actualJumlah; i++ {
-			fmt.Printf("%-5d %-19s %-18d\n", barang[i].id, barang[i].nama, barang[i].tanggal)
+			fmt.Printf("%-5d %-17s %-17d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
 		}
 	}
 }
 func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
-
+	fmt.Print("")
 }
