@@ -9,12 +9,14 @@ type dataBarang [NMAX]struct {
 	tanggal, id, stok int
 }
 
-var log [NMAX]string
+type log [NMAX]string
 
 func main() {
 	//variable
-	var userInput, jumlah, actualJumlah int
+	var userInput, jumlah, actualJumlah, jumlahLog int
 	var barang dataBarang
+	var logActivity log
+	var update string
 
 	//interface
 	fmt.Println("============================================")
@@ -61,7 +63,7 @@ func main() {
 			fmt.Scan(&idEdit)
 			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 5:
-			logBarang(barang)
+			logBarang(&logActivity, &jumlahLog, update)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -179,4 +181,10 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 		fmt.Println("Tanggal berhasil diubah")
 	}
 }
-func logBarang()
+func logBarang(logActivity *log, jumlahLog *int, update string) {
+	for i := 0; i < *jumlahLog; i++ {
+		if logActivity[i] == "" {
+			logActivity[i] = update
+		}
+	}
+}
