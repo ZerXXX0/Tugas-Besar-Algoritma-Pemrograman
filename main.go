@@ -9,6 +9,8 @@ type dataBarang [NMAX]struct {
 	tanggal, id, stok int
 }
 
+var log [NMAX]string
+
 func main() {
 	//variable
 	var userInput, jumlah, actualJumlah int
@@ -27,7 +29,8 @@ func main() {
 		fmt.Println("1. Tambah Barang")
 		fmt.Println("2. Hapus Barang")
 		fmt.Println("3. Lihat Inventori")
-		fmt.Println("4. Cari barang")
+		fmt.Println("4. Edit Barang")
+		fmt.Println("5. Log Barang")
 		fmt.Println("0. Exit")
 		fmt.Println("============================================")
 
@@ -57,6 +60,8 @@ func main() {
 			var idEdit int
 			fmt.Scan(&idEdit)
 			edit(&barang, &actualJumlah, idEdit)
+		case userInput == 5:
+			logBarang(barang)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -90,6 +95,7 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 		if barang[i].nama == "" {
 			fmt.Println("Masukkan nama barang: ")
 			fmt.Scan(&barang[i].nama)
+
 			fmt.Println("Masukkan id barang: ")
 			fmt.Scan(&barang[i].id)
 			fmt.Println("Masukkan tanggal (MMDD): ")
@@ -136,8 +142,8 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 	fmt.Println("Masukkan id barang: ")
 	fmt.Scan(&idEdit)
-	//searching index
 
+	//searching index
 	var searchedIndex int
 	for i := 0; i < *actualJumlah; i++ {
 		if barang[i].id == idEdit {
@@ -147,6 +153,30 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 
 	//option editing
 	var option int
+	fmt.Println("Pilih edit: ")
+	fmt.Println("1. Nama")
+	fmt.Println("2. Stok")
+	fmt.Println("3. Tanggal")
 	fmt.Scan(&option)
-
+	switch {
+	case option == 1:
+		var changeName string
+		fmt.Println("Masukkan nama baru: ")
+		fmt.Scan(&changeName)
+		barang[searchedIndex].nama = changeName
+		fmt.Println("Nama berhasil diubah")
+	case option == 2:
+		var changeStok int
+		fmt.Println("Masukkan stok baru: ")
+		fmt.Scan(&changeStok)
+		barang[searchedIndex].stok = changeStok
+		fmt.Println("Stok berhasil diubah")
+	case option == 3:
+		var changeTanggal string
+		fmt.Println("Masukkan nama baru: ")
+		fmt.Scan(&changeTanggal)
+		barang[searchedIndex].nama = changeTanggal
+		fmt.Println("Tanggal berhasil diubah")
+	}
 }
+func logBarang()
