@@ -134,5 +134,19 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 	}
 }
 func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
-	fmt.Print("")
+	fmt.Println("Masukkan id barang: ")
+	fmt.Scan(&idEdit)
+	//searching index
+
+	var searchedIndex int
+	for i := 0; i < *actualJumlah; i++ {
+		if barang[i].id == idEdit {
+			searchedIndex = i
+		}
+	}
+
+	//option editing
+	var option int
+	fmt.Scan(&option)
+
 }
