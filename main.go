@@ -48,7 +48,7 @@ func main() {
 		case userInput == 1:
 			//fmt.Scan(&jumlah)
 			tambahBarang(&barang, &jumlah, &actualJumlah)
-			fmt.Println("Barang berhasil ditambahkan", jumlah)
+			fmt.Println("Barang berhasil ditambahkan")
 		case userInput == 2:
 			var idDelete int
 			fmt.Println("Masukkan id barang yang ingin dihapus")
@@ -104,7 +104,7 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 			fmt.Scan(&barang[i].id)
 			fmt.Println("Masukkan tanggal (MMDD): ")
 			fmt.Scan(&barang[i].tanggal)
-			fmt.Println("Masukkan tanggal stok: ")
+			fmt.Println("Masukkan stok: ")
 			fmt.Scan(&barang[i].stok)
 
 			//log
@@ -147,7 +147,7 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 
 		//inputting data
 		for i := 0; i < actualJumlah; i++ {
-			fmt.Printf("%-5d %-17s %-17d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
+			fmt.Printf("%-5d %-16s %-16d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
 		}
 	}
 }
