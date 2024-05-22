@@ -11,12 +11,15 @@ type dataBarang [NMAX]struct {
 
 type log [NMAX]string
 
+var update string
+var logActivity log
+
 func main() {
 	//variable
-	var userInput, jumlah, actualJumlah, jumlahLog int
+	var userInput, jumlah, actualJumlah int
 	var barang dataBarang
-	var logActivity log
-	var update string
+	//var logActivity log
+	//var update string
 
 	//interface
 	fmt.Println("============================================")
@@ -63,7 +66,7 @@ func main() {
 			fmt.Scan(&idEdit)
 			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 5:
-			logBarang(&logActivity, &jumlahLog, update)
+			printLog(logActivity)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -103,6 +106,10 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 			fmt.Scan(&barang[i].tanggal)
 			fmt.Println("Masukkan tanggal stok: ")
 			fmt.Scan(&barang[i].stok)
+
+			//log
+			update = "Tambah barang, banyak barang = " + string(*jumlah) + "Id barang: " + string(barang[i].id) + " Pada tanggal " + string(barang[i].tanggal)
+			logBarang(&logActivity, update)
 		}
 	}
 }
@@ -124,6 +131,10 @@ func hapusBarang(barang *dataBarang, actualJumlah *int, idDelete int) {
 		barang[searchedIndex].id = barang[searchedIndex+1].id
 		searchedIndex++
 	}
+
+	//log
+	update = "Hapus barang, Id barang dihapus: " + string(barang[idDelete].id) + " Pada tanggal " + string(barang[idDelete].tanggal)
+	logBarang(&logActivity, update)
 }
 func lihatInventori(barang dataBarang, actualJumlah int) {
 	if actualJumlah == 0 {
@@ -166,21 +177,28 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 		fmt.Scan(&changeName)
 		barang[searchedIndex].nama = changeName
 		fmt.Println("Nama berhasil diubah")
+		//log
+		update = "Edit nama barang, Id barang diedit: " + string(barang[searchedIndex].id)
+		logBarang(&logActivity, update)
 	case option == 2:
 		var changeStok int
 		fmt.Println("Masukkan stok baru: ")
 		fmt.Scan(&changeStok)
 		barang[searchedIndex].stok = changeStok
 		fmt.Println("Stok berhasil diubah")
+		update = "Edit stok barang, Id barang diedit: " + string(barang[searchedIndex].id)
+		logBarang(&logActivity, update)
 	case option == 3:
 		var changeTanggal string
 		fmt.Println("Masukkan nama baru: ")
 		fmt.Scan(&changeTanggal)
 		barang[searchedIndex].nama = changeTanggal
 		fmt.Println("Tanggal berhasil diubah")
+		update = "Edit tanggal barang, Id barang diedit: " + string(barang[searchedIndex].id)
+		logBarang(&logActivity, update)
 	}
 }
-func logBarang(logActivity *log, jumlahLog *int, update string) {
+func logBarang(logActivity *log, update string) {
 	for i := 0; i < NMAX; i++ {
 		if logActivity[i] == "" {
 			logActivity[i] = update
@@ -188,11 +206,14 @@ func logBarang(logActivity *log, jumlahLog *int, update string) {
 		}
 	}
 }
-func printLog(logActivity log, jumlahLog int) {
+func printLog(logActivity log) {
 	for i := 0; i < NMAX; i++ {
 		if logActivity[i] == "" {
 			break
 		}
 		fmt.Println(logActivity[i])
 	}
+}
+func search() {
+
 }
