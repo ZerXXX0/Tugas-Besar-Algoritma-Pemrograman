@@ -27,7 +27,7 @@ func main() {
 	for i != 1 {
 		//interface
 		fmt.Println("============================================")
-		fmt.Println("                   MENU")
+		fmt.Println("                    MENU")
 		fmt.Println("1. Tambah Barang")
 		fmt.Println("2. Hapus Barang")
 		fmt.Println("3. Lihat Inventori")
@@ -97,7 +97,6 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 		if barang[i].nama == "" {
 			fmt.Println("Masukkan nama barang: ")
 			fmt.Scan(&barang[i].nama)
-
 			fmt.Println("Masukkan id barang: ")
 			fmt.Scan(&barang[i].id)
 			fmt.Println("Masukkan tanggal (MMDD): ")
@@ -182,11 +181,18 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 	}
 }
 func logBarang(logActivity *log, jumlahLog *int, update string) {
-	for i := 0; i < *jumlahLog; i++ {
+	for i := 0; i < NMAX; i++ {
 		if logActivity[i] == "" {
 			logActivity[i] = update
+			break
 		}
 	}
 }
-
-func search()
+func printLog(logActivity log, jumlahLog int) {
+	for i := 0; i < NMAX; i++ {
+		if logActivity[i] == "" {
+			break
+		}
+		fmt.Println(logActivity[i])
+	}
+}
