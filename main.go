@@ -63,7 +63,6 @@ func main() {
 			lihatInventori(barang, actualJumlah)
 		case userInput == 4:
 			var idEdit int
-			fmt.Scan(&idEdit)
 			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 5:
 			printLog(logActivity)
@@ -108,7 +107,7 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 			fmt.Scan(&barang[i].stok)
 
 			//log
-			update = "Tambah barang, banyak barang = " + string(*jumlah) + "Id barang: " + string(barang[i].id) + " Pada tanggal " + string(barang[i].tanggal)
+			update = "Tambah barang, banyak barang = " + fmt.Sprintf("%d", *jumlah) + " Id barang: " + fmt.Sprintf("%d", barang[i].id) + " Pada tanggal " + fmt.Sprintf("%d", barang[i].tanggal)
 			logBarang(&logActivity, update)
 		}
 	}
@@ -133,7 +132,7 @@ func hapusBarang(barang *dataBarang, actualJumlah *int, idDelete int) {
 	}
 
 	//log
-	update = "Hapus barang, Id barang dihapus: " + string(barang[idDelete].id) + " Pada tanggal " + string(barang[idDelete].tanggal)
+	update = "Hapus barang, Id barang dihapus: " + fmt.Sprintf("%d", barang[idDelete].id) + " Pada tanggal " + fmt.Sprintf("%d", barang[idDelete].tanggal)
 	logBarang(&logActivity, update)
 }
 func lihatInventori(barang dataBarang, actualJumlah int) {
@@ -155,47 +154,57 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 	fmt.Println("Masukkan id barang: ")
 	fmt.Scan(&idEdit)
 
-	//searching index
-	var searchedIndex int
+	var found bool = false
 	for i := 0; i < *actualJumlah; i++ {
 		if barang[i].id == idEdit {
-			searchedIndex = i
+			found = true
 		}
 	}
 
-	//option editing
-	var option int
-	fmt.Println("Pilih edit: ")
-	fmt.Println("1. Nama")
-	fmt.Println("2. Stok")
-	fmt.Println("3. Tanggal")
-	fmt.Scan(&option)
-	switch {
-	case option == 1:
-		var changeName string
-		fmt.Println("Masukkan nama baru: ")
-		fmt.Scan(&changeName)
-		barang[searchedIndex].nama = changeName
-		fmt.Println("Nama berhasil diubah")
-		//log
-		update = "Edit nama barang, Id barang diedit: " + string(barang[searchedIndex].id)
-		logBarang(&logActivity, update)
-	case option == 2:
-		var changeStok int
-		fmt.Println("Masukkan stok baru: ")
-		fmt.Scan(&changeStok)
-		barang[searchedIndex].stok = changeStok
-		fmt.Println("Stok berhasil diubah")
-		update = "Edit stok barang, Id barang diedit: " + string(barang[searchedIndex].id)
-		logBarang(&logActivity, update)
-	case option == 3:
-		var changeTanggal string
-		fmt.Println("Masukkan nama baru: ")
-		fmt.Scan(&changeTanggal)
-		barang[searchedIndex].nama = changeTanggal
-		fmt.Println("Tanggal berhasil diubah")
-		update = "Edit tanggal barang, Id barang diedit: " + string(barang[searchedIndex].id)
-		logBarang(&logActivity, update)
+	if found == true {
+		//searching index
+		var searchedIndex int
+		for i := 0; i < *actualJumlah; i++ {
+			if barang[i].id == idEdit {
+				searchedIndex = i
+			}
+		}
+		//option editing
+		var option int
+		fmt.Println("Pilih edit: ")
+		fmt.Println("1. Nama")
+		fmt.Println("2. Stok")
+		fmt.Println("3. Tanggal")
+		fmt.Scan(&option)
+		switch {
+		case option == 1:
+			var changeName string
+			fmt.Println("Masukkan nama baru: ")
+			fmt.Scan(&changeName)
+			barang[searchedIndex].nama = changeName
+			fmt.Println("Nama berhasil diubah")
+			//log
+			update = "Edit nama barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		case option == 2:
+			var changeStok int
+			fmt.Println("Masukkan stok baru: ")
+			fmt.Scan(&changeStok)
+			barang[searchedIndex].stok = changeStok
+			fmt.Println("Stok berhasil diubah")
+			update = "Edit stok barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		case option == 3:
+			var changeTanggal string
+			fmt.Println("Masukkan nama baru: ")
+			fmt.Scan(&changeTanggal)
+			barang[searchedIndex].nama = changeTanggal
+			fmt.Println("Tanggal berhasil diubah")
+			update = "Edit tanggal barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		}
+	} else {
+		fmt.Println("Id tidak ditemukan")
 	}
 }
 func logBarang(logActivity *log, update string) {
