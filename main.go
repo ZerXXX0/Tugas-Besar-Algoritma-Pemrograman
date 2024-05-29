@@ -23,6 +23,8 @@ func main() {
 
 	//interface
 	fmt.Println("============================================")
+	fmt.Println("          Lembaga Sembako Present")
+	fmt.Println("============================================")
 	fmt.Println("   Welcome to Aplikasi Inventori Barang")
 	fmt.Println("============================================")
 
