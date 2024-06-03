@@ -189,4 +189,23 @@ func logBarang(logActivity *log, jumlahLog *int, update string) {
 	}
 }
 
-func search()
+func search(barang dataBarang, x int) {
+	var found bool
+	var i int
+	fmt.Printf("Masukan id barang:")
+	fmt.Scan(&x)
+	found = false
+	i = 0
+
+	for i < NMAX && !found {
+		if barang[i].id == x {
+			found = true
+		}
+		i = i + 1
+	}
+	if found {
+		fmt.Println("data ditemukan")
+	} else {
+		fmt.Println("data tidak dapat ditemukan")
+	}
+}
