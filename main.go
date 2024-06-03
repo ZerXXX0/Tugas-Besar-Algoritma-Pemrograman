@@ -11,14 +11,19 @@ type dataBarang [NMAX]struct {
 
 type log [NMAX]string
 
+var update string
+var logActivity log
+
 func main() {
 	//variable
-	var userInput, jumlah, actualJumlah, jumlahLog int
+	var userInput, jumlah, actualJumlah int
 	var barang dataBarang
-	var logActivity log
-	var update string
+	//var logActivity log
+	//var update string
 
 	//interface
+	fmt.Println("============================================")
+	fmt.Println("          Lembaga Sembako Present")
 	fmt.Println("============================================")
 	fmt.Println("   Welcome to Aplikasi Inventori Barang")
 	fmt.Println("============================================")
@@ -27,7 +32,7 @@ func main() {
 	for i != 1 {
 		//interface
 		fmt.Println("============================================")
-		fmt.Println("                   MENU")
+		fmt.Println("                    MENU")
 		fmt.Println("1. Tambah Barang")
 		fmt.Println("2. Hapus Barang")
 		fmt.Println("3. Lihat Inventori")
@@ -45,7 +50,7 @@ func main() {
 		case userInput == 1:
 			//fmt.Scan(&jumlah)
 			tambahBarang(&barang, &jumlah, &actualJumlah)
-			fmt.Println("Barang berhasil ditambahkan", jumlah)
+			fmt.Println("Barang berhasil ditambahkan")
 		case userInput == 2:
 			var idDelete int
 			fmt.Println("Masukkan id barang yang ingin dihapus")
@@ -60,10 +65,9 @@ func main() {
 			lihatInventori(barang, actualJumlah)
 		case userInput == 4:
 			var idEdit int
-			fmt.Scan(&idEdit)
 			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 5:
-			logBarang(&logActivity, &jumlahLog, update)
+			printLog(logActivity)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -97,13 +101,16 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 		if barang[i].nama == "" {
 			fmt.Println("Masukkan nama barang: ")
 			fmt.Scan(&barang[i].nama)
-
 			fmt.Println("Masukkan id barang: ")
 			fmt.Scan(&barang[i].id)
 			fmt.Println("Masukkan tanggal (MMDD): ")
 			fmt.Scan(&barang[i].tanggal)
-			fmt.Println("Masukkan tanggal stok: ")
+			fmt.Println("Masukkan stok: ")
 			fmt.Scan(&barang[i].stok)
+
+			//log
+			update = "Tambah barang, banyak barang = " + fmt.Sprintf("%d", *jumlah) + " Id barang: " + fmt.Sprintf("%d", barang[i].id) + " Pada tanggal " + fmt.Sprintf("%d", barang[i].tanggal)
+			logBarang(&logActivity, update)
 		}
 	}
 }
@@ -125,6 +132,10 @@ func hapusBarang(barang *dataBarang, actualJumlah *int, idDelete int) {
 		barang[searchedIndex].id = barang[searchedIndex+1].id
 		searchedIndex++
 	}
+
+	//log
+	update = "Hapus barang, Id barang dihapus: " + fmt.Sprintf("%d", barang[idDelete].id) + " Pada tanggal " + fmt.Sprintf("%d", barang[idDelete].tanggal)
+	logBarang(&logActivity, update)
 }
 func lihatInventori(barang dataBarang, actualJumlah int) {
 	if actualJumlah == 0 {
@@ -137,7 +148,7 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 
 		//inputting data
 		for i := 0; i < actualJumlah; i++ {
-			fmt.Printf("%-5d %-17s %-17d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
+			fmt.Printf("%-5d %-16s %-16d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
 		}
 	}
 }
@@ -145,47 +156,73 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 	fmt.Println("Masukkan id barang: ")
 	fmt.Scan(&idEdit)
 
-	//searching index
-	var searchedIndex int
+	var found bool = false
 	for i := 0; i < *actualJumlah; i++ {
 		if barang[i].id == idEdit {
-			searchedIndex = i
+			found = true
 		}
 	}
 
-	//option editing
-	var option int
-	fmt.Println("Pilih edit: ")
-	fmt.Println("1. Nama")
-	fmt.Println("2. Stok")
-	fmt.Println("3. Tanggal")
-	fmt.Scan(&option)
-	switch {
-	case option == 1:
-		var changeName string
-		fmt.Println("Masukkan nama baru: ")
-		fmt.Scan(&changeName)
-		barang[searchedIndex].nama = changeName
-		fmt.Println("Nama berhasil diubah")
-	case option == 2:
-		var changeStok int
-		fmt.Println("Masukkan stok baru: ")
-		fmt.Scan(&changeStok)
-		barang[searchedIndex].stok = changeStok
-		fmt.Println("Stok berhasil diubah")
-	case option == 3:
-		var changeTanggal string
-		fmt.Println("Masukkan nama baru: ")
-		fmt.Scan(&changeTanggal)
-		barang[searchedIndex].nama = changeTanggal
-		fmt.Println("Tanggal berhasil diubah")
+	if found == true {
+		//searching index
+		var searchedIndex int
+		for i := 0; i < *actualJumlah; i++ {
+			if barang[i].id == idEdit {
+				searchedIndex = i
+			}
+		}
+		//option editing
+		var option int
+		fmt.Println("Pilih edit: ")
+		fmt.Println("1. Nama")
+		fmt.Println("2. Stok")
+		fmt.Println("3. Tanggal")
+		fmt.Scan(&option)
+		switch {
+		case option == 1:
+			var changeName string
+			fmt.Println("Masukkan nama baru: ")
+			fmt.Scan(&changeName)
+			barang[searchedIndex].nama = changeName
+			fmt.Println("Nama berhasil diubah")
+			//log
+			update = "Edit nama barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		case option == 2:
+			var changeStok int
+			fmt.Println("Masukkan stok baru: ")
+			fmt.Scan(&changeStok)
+			barang[searchedIndex].stok = changeStok
+			fmt.Println("Stok berhasil diubah")
+			update = "Edit stok barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		case option == 3:
+			var changeTanggal string
+			fmt.Println("Masukkan nama baru: ")
+			fmt.Scan(&changeTanggal)
+			barang[searchedIndex].nama = changeTanggal
+			fmt.Println("Tanggal berhasil diubah")
+			update = "Edit tanggal barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
+			logBarang(&logActivity, update)
+		}
+	} else {
+		fmt.Println("Id tidak ditemukan")
 	}
 }
-func logBarang(logActivity *log, jumlahLog *int, update string) {
-	for i := 0; i < *jumlahLog; i++ {
+func logBarang(logActivity *log, update string) {
+	for i := 0; i < NMAX; i++ {
 		if logActivity[i] == "" {
 			logActivity[i] = update
+			break
 		}
+	}
+}
+func printLog(logActivity log) {
+	for i := 0; i < NMAX; i++ {
+		if logActivity[i] == "" {
+			break
+		}
+		fmt.Println(logActivity[i])
 	}
 }
 
