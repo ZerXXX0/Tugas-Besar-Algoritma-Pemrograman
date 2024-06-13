@@ -226,23 +226,36 @@ func printLog(logActivity log) {
 	}
 }
 
-func search(barang dataBarang, x int) {
-	var found bool
-	var i int
-	fmt.Printf("Masukan id barang:")
-	fmt.Scan(&x)
-	found = false
-	i = 0
-
-	for i < NMAX && !found {
-		if barang[i].id == x {
-			found = true
+func linearSearch(data *dataBarang, x int) {
+	fmt.Println("Masukan Id Barang:")
+	isFound := false
+	idx := -1
+	for i := 0; i < len(data); i++ {
+		isFound = data[i].id == x
+		if isFound {
+			idx = i
+			break
 		}
-		i = i + 1
 	}
-	if found {
-		fmt.Println("data ditemukan")
+	if isFound {
+		fmt.Println("Barang berhasil ditemukan. Hasilnya:")
+		fmt.Println(data[idx])
 	} else {
-		fmt.Println("data tidak dapat ditemukan")
+		fmt.Println("Barang tidak ditemukan.")
 	}
+}
+
+func insertionSort(barang *dataBarang, isAsc bool) {
+	for i := 0; i < len(barang); i++ {
+		if isAsc {
+			for j := i; j > 0 && barang[j-1].stok > barang[j].stok; j-- {
+				barang[j], barang[j-1] = barang[j-1], barang[j]
+			}
+		} else {
+			for j := i; j > 0 && barang[j-1].stok < barang[j].stok; j-- {
+				barang[j], barang[j-1] = barang[j-1], barang[j]
+			}
+		}
+	}
+	fmt.Println(barang)
 }
