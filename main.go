@@ -68,6 +68,11 @@ func main() {
 			edit(&barang, &actualJumlah, idEdit)
 		case userInput == 5:
 			printLog(logActivity)
+		case userInput == 6:
+			var idToSearch int
+			fmt.Println("Masukkan Id Barang yang ingin dicari:")
+			fmt.Scan(&idToSearch)
+			linearSearch(&barang, idToSearch)
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
