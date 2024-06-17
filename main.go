@@ -4,13 +4,16 @@ import "fmt"
 
 const NMAX int = 1000
 
+//Data barang struct and array
 type dataBarang [NMAX]struct {
 	nama              string
 	tanggal, id, stok int
 }
 
+//Log creation
 type log [NMAX]string
 
+//Global variable
 var update string
 var logActivity log
 
@@ -28,6 +31,9 @@ func main() {
 	fmt.Println("   Welcome to Aplikasi Inventori Barang")
 	fmt.Println("============================================")
 
+	//Looping interface
+	//jika i != 1, maka infinite loop
+	//nilai i = 1 ditaruh di pilihan 0.Exit
 	i := 0
 	for i != 1 {
 		//interface
@@ -151,6 +157,7 @@ func hapusBarang(barang *dataBarang, actualJumlah *int, idDelete int) {
 	logBarang(&logActivity, update)
 }
 func lihatInventori(barang dataBarang, actualJumlah int) {
+	//error handling for null value
 	if actualJumlah == 0 {
 		fmt.Println("Inventori masih kosong")
 	} else {
@@ -159,16 +166,18 @@ func lihatInventori(barang dataBarang, actualJumlah int) {
 			actualJumlah = NMAX
 		}
 
-		//inputting data
+		//printing data
 		for i := 0; i < actualJumlah; i++ {
 			fmt.Printf("%-5d %-16s %-16d %-4d\n", barang[i].id, barang[i].nama, barang[i].tanggal, barang[i].stok)
 		}
 	}
 }
 func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
+	//input id
 	fmt.Println("Masukkan id barang: ")
 	fmt.Scan(&idEdit)
 
+	//if id sama dengan yang dicari
 	var found bool = false
 	for i := 0; i < *actualJumlah; i++ {
 		if barang[i].id == idEdit {
@@ -176,6 +185,7 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 		}
 	}
 
+	//if true
 	if found == true {
 		//searching index
 		var searchedIndex int
@@ -207,14 +217,16 @@ func edit(barang *dataBarang, actualJumlah *int, idEdit int) {
 			fmt.Scan(&changeStok)
 			barang[searchedIndex].stok = changeStok
 			fmt.Println("Stok berhasil diubah")
+			//log
 			update = "Edit stok barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
 			logBarang(&logActivity, update)
 		case option == 3:
 			var changeTanggal string
-			fmt.Println("Masukkan nama baru: ")
+			fmt.Println("Masukkan tanggal baru: ")
 			fmt.Scan(&changeTanggal)
 			barang[searchedIndex].nama = changeTanggal
 			fmt.Println("Tanggal berhasil diubah")
+			//log
 			update = "Edit tanggal barang, Id barang diedit: " + fmt.Sprintf("%d", barang[searchedIndex].id)
 			logBarang(&logActivity, update)
 		}
@@ -238,7 +250,6 @@ func printLog(logActivity log) {
 		fmt.Println(logActivity[i])
 	}
 }
-
 func linearSearch(data *dataBarang, x int) {
 	fmt.Println("Masukan Id Barang:")
 	isFound := false
@@ -252,7 +263,10 @@ func linearSearch(data *dataBarang, x int) {
 	}
 	if isFound {
 		fmt.Println("Barang berhasil ditemukan. Hasilnya:")
-		fmt.Println(data[idx])
+		//fmt.Println(data[idx])
+		fmt.Println("============================================")
+		fmt.Println("Id    Nama             Tanggal masuk    Stok")
+		fmt.Printf("%-5d %-16s %-16d %-4d\n", data[idx].id, data[idx].nama, data[idx].tanggal, data[idx].stok)
 	} else {
 		fmt.Println("Barang tidak ditemukan.")
 	}
@@ -270,5 +284,8 @@ func insertionSort(barang *dataBarang, actualJumlah *int, isAsc bool) {
 			}
 		}
 	}
-	fmt.Println(barang)
+	fmt.Println("              Inventori Anda")
+	fmt.Println("============================================")
+	fmt.Println("Id    Nama             Tanggal masuk    Stok")
+	lihatInventori(*barang, *actualJumlah)
 }
