@@ -38,6 +38,8 @@ func main() {
 		fmt.Println("3. Lihat Inventori")
 		fmt.Println("4. Edit Barang")
 		fmt.Println("5. Log Barang")
+		fmt.Println("6. Cari Barang")
+		fmt.Println("7. Urutkan Barang")
 		fmt.Println("0. Exit")
 		fmt.Println("============================================")
 
@@ -73,6 +75,12 @@ func main() {
 			fmt.Println("Masukkan Id Barang yang ingin dicari:")
 			fmt.Scan(&idToSearch)
 			linearSearch(&barang, idToSearch)
+		case userInput == 7:
+			var isAsc bool
+			fmt.Println("Urutkan berdasarkan stok. Masukkan 1 untuk ascending atau 0 untuk descending:")
+			fmt.Scan(&isAsc)
+			insertionSort(&barang, &actualJumlah, isAsc)
+			fmt.Println("Barang berhasil diurutkan")
 		case userInput == 0:
 			fmt.Println("Terima kasih, sampai jumpa lagi!!")
 			fmt.Println("Thank you, see you again!!")
@@ -250,8 +258,8 @@ func linearSearch(data *dataBarang, x int) {
 	}
 }
 
-func insertionSort(barang *dataBarang, isAsc bool) {
-	for i := 0; i < len(barang); i++ {
+func insertionSort(barang *dataBarang, actualJumlah *int, isAsc bool) {
+	for i := 0; i < *actualJumlah; i++ {
 		if isAsc {
 			for j := i; j > 0 && barang[j-1].stok > barang[j].stok; j-- {
 				barang[j], barang[j-1] = barang[j-1], barang[j]
