@@ -108,6 +108,7 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 		*jumlah = NMAX
 	}
 
+	//penambahan jumlah
 	*actualJumlah = *jumlah
 	for i := 0; i < *jumlah; i++ {
 		if barang[i].nama != "" {
@@ -122,7 +123,7 @@ func tambahBarang(barang *dataBarang, jumlah *int, actualJumlah *int) {
 			fmt.Scan(&barang[i].nama)
 			fmt.Println("Masukkan id barang: ")
 			fmt.Scan(&barang[i].id)
-			fmt.Println("Masukkan tanggal (MMDD): ")
+			fmt.Println("Masukkan tanggal (YYYYMMDD): ")
 			fmt.Scan(&barang[i].tanggal)
 			fmt.Println("Masukkan stok: ")
 			fmt.Scan(&barang[i].stok)
